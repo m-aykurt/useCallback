@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import "./App.css";
 
 const phones = [
@@ -11,13 +11,13 @@ const App = () => {
   const [products] = useState(phones);
   const [cart, setCart] = useState([]);
 
-  const addToCart = (product) => {
+  const addToCart = useCallback((product) => {
     setCart((cart) => [...cart, product]);
-  };
+  }, []);
 
-  const emptyCart = () => {
+  const emptyCart = useCallback(() => {
     setCart([]);
-  };
+  }, []);
 
   return (
     <div className="wrapper">
@@ -27,7 +27,7 @@ const App = () => {
   );
 };
 
-const Products = ({ products, addToCart }) => {
+const Products = React.memo(({ products, addToCart }) => {
   return (
     <>
       <h1>Ürünler</h1>
@@ -38,9 +38,9 @@ const Products = ({ products, addToCart }) => {
       </div>
     </>
   );
-};
+});
 
-const Cart = ({ cart, emptyCart }) => {
+const Cart = React.memo(({ cart, emptyCart }) => {
   return (
     <>
       <h1>
@@ -53,9 +53,9 @@ const Cart = ({ cart, emptyCart }) => {
       </div>
     </>
   );
-};
+});
 
-const Product = ({ name, price, addToCart }) => {
+const Product = React.memo(({ name, price, addToCart }) => {
   return (
     <div className="product">
       <h2>{name}</h2>
@@ -65,6 +65,6 @@ const Product = ({ name, price, addToCart }) => {
       )}
     </div>
   );
-};
+});
 
 export default App;
